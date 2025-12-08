@@ -1,4 +1,4 @@
-export interface Response<T> {
+export interface Res<T> {
   status: number;
   message: string;
   data: T;
@@ -6,6 +6,8 @@ export interface Response<T> {
 }
 
 export interface Data {
-  slot_kosong: number[];
+  id: string;
+  slotKosong: number[];
   noParking: number | null;
+  date: Date;
 }
