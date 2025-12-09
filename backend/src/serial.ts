@@ -1,4 +1,7 @@
 import { SerialPort, ReadlineParser } from "serialport";
+import EventEmitter from "events";
+
+export const serialEmitter = new EventEmitter();
 
 const port = new SerialPort({
   path: "COM8", 
