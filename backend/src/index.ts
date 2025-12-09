@@ -10,14 +10,15 @@ function generateId(): string {
   return randomBytes(16).toString('hex');
 }
 
-app.get("/parking_status", async (req: Request, res: Response) => {
+app.get("/parking_status", (req: Request, res: Response) => {
   try {
-    const kosong: number[] = await getParkingData() || [];
-    const noParking: number | null = await kosong?.length > 0 ? kosong[0] : null;
+    const kosong: number[] = getParkingData() || [];
+    const noParking: number | null =  kosong?.length > 0 ? kosong[0] : null;
     console.log(` ini no parkirmu: ${noParking}`)
     const id: string = generateId()
     const date: Date  = new Date();
-    const response: Res<Data> = {
+    
+    const successResponse: Res<Data> = {
       status: 200,
       message: "Success ticket",
       data: {
@@ -27,10 +28,20 @@ app.get("/parking_status", async (req: Request, res: Response) => {
         date: date
       }
     };
-    console.log(response);
-    res.json(response);
+
+    if (kosong.length === 0) successResponse.message = "Parkiran penuh";     
+    
+    console.log(successResponse);
+    res.json(successResponse);
   } catch (error) {
     console.log(error)
+    const errorResponse: Res<null> = {
+      status: 500,
+      message: "Server error",
+      data: null,
+      errorMessage: (error as Error).message
+    };
+    return res.json(errorResponse);
   }
 });
 
