@@ -19,7 +19,6 @@ app.get("/parking_status", (req: Request, res: Response) => {
     const date: Date  = new Date();
     
     const successResponse: Res<Data> = {
-      status: 200,
       message: "Success ticket",
       data: {
         id: id,
@@ -36,7 +35,6 @@ app.get("/parking_status", (req: Request, res: Response) => {
   } catch (error) {
     console.log(error)
     const errorResponse: Res<null> = {
-      status: 500,
       message: "Server error",
       data: null,
       errorMessage: (error as Error).message
