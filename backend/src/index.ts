@@ -32,7 +32,7 @@ app.get("/parking_status", (req: Request, res: Response) => {
     if (kosong.length === 0) successResponse.message = "Parkiran penuh";     
     
     console.log(successResponse);
-    res.json(successResponse);
+    res.status(200).json(successResponse);
   } catch (error) {
     console.log(error)
     const errorResponse: Res<null> = {
@@ -41,7 +41,7 @@ app.get("/parking_status", (req: Request, res: Response) => {
       data: null,
       errorMessage: (error as Error).message
     };
-    return res.json(errorResponse);
+    return res.status(500).json(errorResponse);
   }
 });
 
