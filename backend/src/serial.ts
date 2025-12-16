@@ -12,13 +12,17 @@ const parser = port.pipe(new ReadlineParser({ delimiter: "\n" }));
 
 let latestData: number[] | null = null;
 
-parser.on("data", (line: string) => {
+parser.on("data", (raw: string) => {
   try {
-    const json = JSON.parse(line);
+    const json = JSON.parse(raw);
+    if (json.button === 1) {
+      console.log("button from iot");
+      serialEmitter.emit("buttonPressed");
+    }
     latestData = json;
     console.log("Data dari IoT:", latestData);
   } catch (e) {
-    console.log("Invalid JSON:", line);
+    console.log("Invalid JSON:", raw);
   }
 });
 

@@ -2,21 +2,23 @@ import express, { Request, Response } from "express";
 import { getParkingData } from "./serial";
 import { Data, Res } from "./type";
 import { randomBytes } from 'crypto';
+import cors from "cors";
+import { sseHandler } from "./sse";
 
 const app = express();
 const PORT = 3000;
+app.use(cors());
 
 function generateId(): string {
   return randomBytes(16).toString('hex');
 }
 
-app.get("/parking_status", (req: Request, res: Response) => {
+app.get("/parking-status", (req: Request, res: Response) => {
   try {
     const kosong: number[] = getParkingData() || [];
     const noParking: number | null =  kosong?.length > 0 ? kosong[0] : null;
     console.log(` ini no parkirmu: ${noParking}`)
     const id: string = generateId()
-    const date: Date  = new Date();
     
     const successResponse: Res<Data> = {
       message: "Success ticket",
@@ -24,7 +26,7 @@ app.get("/parking_status", (req: Request, res: Response) => {
         id: id,
         slotKosong: kosong,
         noParking: noParking,
-        date: date
+        date: new Date().toISOString()
       }
     };
 
@@ -42,6 +44,8 @@ app.get("/parking_status", (req: Request, res: Response) => {
     return res.status(500).json(errorResponse);
   }
 });
+
+app.get("/ticket-stream", sseHandler);
 
 app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);
