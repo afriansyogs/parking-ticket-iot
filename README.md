@@ -8,24 +8,28 @@ Perangkat IoT dengan tombol button sebagai triger terhubung via **USB Serial (Se
 ## 🚀 Fitur Utama
 
 - Integrasi dengan **IoT device via SerialPort (USB Serial)**  
-- Generate tiket parkir secara otomatis saat tombol 
+- Generate tiket parkir secara otomatis saat tombol IoT ditekan 
 - Frontend modern menggunakan **SvelteKit**  
-- Backend REST API menggunakan **Express.js**
+- Backend REST API menggunakan Ts dengan framework **Express**
 
 ---
 
 ## 📁 Struktur Project
 
+```
 parking-ticket-iot/
-├─ backend/ 
-├─ client/ 
+├─ backend/
+├─ client/
+├─ iot/
 ├─ .gitignore
 └─ README.md
+```
 
 ---
 
 ## ⚙️ Instalasi
-**Clone repository**
+```bash
+git clone https://github.com/afriansyogs/parking-ticket-iot.git
 cd parking-ticket-iot
 
 cd backend
@@ -33,3 +37,9 @@ npm install
 
 cd ../client
 npm install
+```
+---
+
+## NOTED:
+- Sesuaikan serial portnya pada backend dengan device iot yang kita hubungkan ke laptop
+- Code Iot digunakan untuk menjalankan project iot, code terserbut perlu component iot dan microcontroller(ESP32) detailnya ada di README.MD pada directory iot/
