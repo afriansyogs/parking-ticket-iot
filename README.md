@@ -10,7 +10,8 @@ Perangkat IoT dengan tombol button sebagai triger terhubung via **USB Serial (Se
 - Integrasi dengan **IoT device via SerialPort (USB Serial)**  
 - Generate tiket parkir secara otomatis saat tombol IoT ditekan 
 - Frontend modern menggunakan **SvelteKit**  
-- Backend REST API menggunakan Ts dengan framework **Express**
+- Backend Ts dengan framework **Express**
+- SSE
 
 ---
 
@@ -41,5 +42,5 @@ npm install
 ---
 
 ## NOTED:
-- Sesuaikan serial portnya pada backend dengan device iot yang kita hubungkan ke laptop
+- Sesuaikan serial portnya pada backend dengan device iot yang anda hubungkan ke laptop
 - Code Iot digunakan untuk menjalankan project iot, code terserbut perlu component iot dan microcontroller(ESP32) detailnya ada di README.MD pada directory iot/
