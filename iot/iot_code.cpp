@@ -50,7 +50,6 @@ void setGate(int angle) {
 void setup() {
   Serial.begin(115200);
 
-  // Setup pin
   for (int i = 0; i < jumlahSlot; i++) {
     pinMode(trigPins[i], OUTPUT);
     pinMode(echoPins[i], INPUT);
@@ -58,13 +57,11 @@ void setup() {
     pinMode(ledMerahPins[i], OUTPUT);
   }
 
-  // Setup gerbang
   gateServo.attach(servoPin);
   setGate(angleClose);
   pinMode(buttonPin, INPUT_PULLUP);
   pinMode(irGatePin, INPUT); 
 
-  // Setup LCD
   lcd.init();
   lcd.backlight(); 
   lcd.setCursor(0, 0);
@@ -77,7 +74,7 @@ void loop() {
   int slotKosong[3];
   int jumlahSlotKosong = 0; 
 
- for (int i = 0; i < jumlahSlot; i++) {
+  for (int i = 0; i < jumlahSlot; i++) {
     int jarak = measureDistance(trigPins[i], echoPins[i]);
 
     if (jarak < batasJarak && jarak > 0) {
@@ -95,7 +92,7 @@ void loop() {
   
   slotTersedia = hitungKosong;
 
-  // send slot parkir kosong
+  // send slot parkir kosong 
   Serial.print("[");
   for (int i = 0; i < jumlahSlotKosong; i++) {
     Serial.print(slotKosong[i]);
@@ -105,8 +102,8 @@ void loop() {
 
 
   if (digitalRead(buttonPin) == LOW && !gerbangTerbuka) {
-    //Serial.println("Tombol Ditekan -> Membuka Gerbang");
     setGate(angleOpen);
+    Serial.println("{\"button\":1}");
     delay(500);
     gerbangTerbuka = true;
   }
@@ -114,8 +111,6 @@ void loop() {
   int irStatus = digitalRead(irGatePin);
 
   if(irStatus == LOW && gerbangTerbuka) {
-    //Serial.println("gerbang mau nutup");
-    // delay(500);
     setGate(angleClose); 
   }
 
@@ -133,10 +128,6 @@ void loop() {
     lcd.print(slotTersedia);
     lcd.print("/" + String(jumlahSlot) + "    ");
   }
-
-  //Serial.print(" Jarak nih: ");
-  // Serial.print(jarak);
-  //Serial.print(" cm ");
   
   delay(200); 
 }
