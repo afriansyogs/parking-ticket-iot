@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { serialEmitter } from "./serial";
-import { generateTicket } from "./ticketService";
+import { generateTicket } from "../controllers/TicketController";
+
 
 export function sseHandler(req:Request, res: Response) {
   res.setHeader("Content-Type", "text/event-stream");
@@ -9,8 +10,8 @@ export function sseHandler(req:Request, res: Response) {
 
   console.log("test sse")
 
-  const sendTicket = () => {
-    const ticket = generateTicket();
+  const sendTicket = async () => {
+    const ticket = await generateTicket();
     res.write(`event: ticket\n`);
     res.write(`data: ${JSON.stringify(ticket)}\n\n`);
     console.log(`ini ticket ${ticket}`)

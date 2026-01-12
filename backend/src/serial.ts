@@ -4,7 +4,7 @@ import EventEmitter from "events";
 export const serialEmitter = new EventEmitter();
 
 const port = new SerialPort({
-  path: "COM8", 
+  path: "/dev/ttyUSB0", 
   baudRate: 115200,
 });
 
