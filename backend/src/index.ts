@@ -1,51 +1,20 @@
 import express, { Request, Response } from "express";
-import { getParkingData } from "./serial";
-import { Data, Res } from "./type";
-import { randomBytes } from 'crypto';
 import cors from "cors";
 import { sseHandler } from "./sse";
 
 const app = express();
 const PORT = 3000;
+app.use(express.json());
 app.use(cors());
 
-function generateId(): string {
-  return randomBytes(16).toString('hex');
-}
+const tickerRoutes = require("../routes/Ticket");
+const AuthRoutes = require("../routes/Auth");
+const DashboardStashRoutes = require("../routes/DashboardStash");
 
-app.get("/parking-status", (req: Request, res: Response) => {
-  try {
-    const kosong: number[] = getParkingData() || [];
-    const noParking: number | null =  kosong?.length > 0 ? kosong[0] : null;
-    console.log(` ini no parkirmu: ${noParking}`)
-    const id: string = generateId()
-    
-    const successResponse: Res<Data> = {
-      message: "Success ticket",
-      data: {
-        id: id,
-        slotKosong: kosong,
-        noParking: noParking,
-        date: new Date().toISOString()
-      }
-    };
-
-    if (kosong.length === 0) successResponse.message = "Parkiran penuh";     
-    
-    console.log(successResponse);
-    res.status(200).json(successResponse);
-  } catch (error) {
-    console.log(error)
-    const errorResponse: Res<null> = {
-      message: "Server error",
-      data: null,
-      errorMessage: (error as Error).message
-    };
-    return res.status(500).json(errorResponse);
-  }
-});
-
+app.use("/tickets", tickerRoutes);
 app.get("/ticket-stream", sseHandler);
+app.use("/auth", AuthRoutes);
+app.use("/dashboard", DashboardStashRoutes);
 
 app.listen(PORT, () => {
   console.log(`The server is running on http://localhost:${PORT}`);
