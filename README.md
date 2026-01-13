@@ -8,7 +8,8 @@ Perangkat IoT dengan tombol button sebagai triger terhubung via **USB Serial (Se
 ## 🚀 Fitur Utama
 
 - Integrasi dengan **IoT device via SerialPort (USB Serial)**  
-- Generate tiket parkir secara otomatis saat tombol IoT ditekan 
+- Generate tiket parkir & **QRCODE** secara otomatis saat tombol IoT ditekan
+- Scan QRCODE untuk payment dan calculate total biaya parkir dihitung per jam  
 - Frontend modern menggunakan **SvelteKit**  
 - Backend Ts dengan framework **Express**
 - SSE
@@ -43,4 +44,5 @@ npm install
 
 ## NOTED:
 - Sesuaikan serial portnya pada backend dengan device iot yang anda hubungkan ke laptop
+- Compile code IoT dengan ARDUINO IDE
 - Code Iot digunakan untuk menjalankan project iot, code terserbut perlu component iot dan microcontroller(ESP32) detailnya ada di README.MD pada directory iot/
