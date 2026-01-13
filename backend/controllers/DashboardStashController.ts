@@ -3,6 +3,7 @@ import { prisma } from '../lib/prisma'
 import { Data, Res } from "../types/type";
 import { TicketStatus } from "../generated/prisma/enums";
 import { generateTicket } from "./TicketController";
+import { getParkingData } from "../src/serial";
 
 exports.getDashboardTicketStats = async (req: Request, res: Response) => {
   try {
@@ -121,8 +122,10 @@ export const getRevenueLastWeek = async (req: Request, res: Response) => {
 
 export const getSlotParking = async (req: Request, res: Response) => {
   try {
-    const dataParking = await generateTicket(); 
-    const slotParking = dataParking.kosong;
+    const kosong : number[] | null = getParkingData() || [];
+    const slotParking: number | null =  kosong?.length > 0 ? kosong[0] : null;
+    // const dataParking = await generateTicket(); 
+    // const slotParking = dataParking.kosong;
 
     return res.status(200).json({ data: slotParking });
   } catch (error) {
